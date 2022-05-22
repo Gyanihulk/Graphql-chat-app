@@ -1,0 +1,82 @@
+import { ApolloServer, gql } from "apollo-server";
+import { randomUUID } from "crypto";
+const users = [
+  {
+    id: "asd",
+    firstName: "mukesh",
+    lastName: "kumar",
+    email: "mukeshkumar@gmail.com",
+    password: "1234",
+  },
+  {
+    id: "asdfg",
+    firstName: "raj",
+    lastName: "kumar",
+    email: "rajkumar@gmail.com",
+    password: "1234",
+  },
+];
+
+const Todos = [
+  { title: "buy book", by: "asd" },
+  { title: "write code", by: "asdfg" },
+  { title: "record video", by: "asd" },
+];
+
+const typeDefs = gql`
+  type Query {
+    users: [User]
+    user(id: ID!): User
+  }
+  input UserInput {
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+  }
+  type User {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    todos:[Todo]
+  }
+  type Todo{
+      title:String!,
+      by:ID!
+  }
+  type Mutation {
+    createUser(userNew: UserInput!): User
+  }
+`;
+
+const resolvers = {
+  Query: {
+    users: () => users,
+    user: (parent, { id }, ctx) => {
+        if (!userLoggedin) throw new Error("you are not logged in")
+      return users.find((item) => item.id == id);
+    },
+  },
+  User:{
+      todos:(parent)=>{
+          return Todos.filter(todo=>todo.by==parent.id)
+      }
+      
+  },
+  Mutation: {
+    createUser: (_, { userNew }) => {
+      const newUser = {
+        id: randomUUID(),
+        ...userNew,
+      };
+      users.push(newUser);
+      return newUser;
+    },
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers,context :{userLoggedin:true}});
+server.listen().then(({ url }) => {
+  console.log(`server is running at ${url}`);
+});
