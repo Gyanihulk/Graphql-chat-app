@@ -2,11 +2,17 @@
 import React from 'react'
 import {Box, Typography,Divider,Stack} from '@mui/material'
 import UserCard from './UserCard';
-const Sidebar = () => {
+import LogoutIcon from '@mui/icons-material/Logout';
+import { LOAD_USERS } from '../graphql/Query'
+const Sidebar = ({setloggedIn}) => {
     const users=[
-        {id:1,firstName:"arjun",lastName:"Kumar"},
-        
+        {id:1,firstName:"arjun",lastName:"Kumar"},        
     ]
+    // const {error,loading,data}= useQuery(LOAD_USERS)
+    // useEffect(()=>{
+    // },[data])
+
+    
   return (
     <Box
     backgroundColor="#f7f7f7"
@@ -18,8 +24,7 @@ const Sidebar = () => {
          direction="row"
          justifyContent="space-between"
         >
-             <Typography variant="h6">Chat</Typography>
-                
+             <Typography variant="h6">Chat</Typography>  
         </Stack>
         <Divider />
         {
