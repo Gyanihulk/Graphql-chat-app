@@ -13,6 +13,7 @@ import {
   HttpLink
 } from "@apollo/client";
 import {onError} from "@apollo/client/link/error"
+import { setContext } from "@apollo/client/link/context";
 
 const errorLink=onError(({graphqlErrors,networkError})=>{
   if(graphqlErrors){
@@ -25,16 +26,16 @@ const link=from([
   errorLink, new HttpLink({uri:"http://localhost:4000"})
 ])
 
-// const authLink=setContext((_,{header})=>{
-//   return{
-//     header:{
-//       ...header,
-//       authorization:localStorage.getItem('jwt')||"",
-//     }
-//   }
-// })
+const authLink=setContext((_,{header})=>{
+  return{
+    header:{
+      ...header,
+      authorization:localStorage.getItem('jwt')||"",
+    }
+  }
+})
 const client = new ApolloClient({
-  link:link,
+  link:authLink.concat(link),
   cache: new InMemoryCache()
 });
 const root = ReactDOM.createRoot(document.getElementById('root'));

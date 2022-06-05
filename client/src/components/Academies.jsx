@@ -14,7 +14,7 @@ import img6 from '../assets/Academies/6.jpg'
 
 export default function Academies() {
   return (
-    <ImageList sx={{  height: 500 }}>
+    <ImageList sx={{  height: 1000 }}>
       <ImageListItem key="Subheader" cols={2}>
         <ListSubheader sx={{
             alignItems:'auto',

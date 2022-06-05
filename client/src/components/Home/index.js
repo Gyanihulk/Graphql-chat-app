@@ -42,9 +42,7 @@ const Home = () => {
           <h2>
             Feel free to contact us for any query
           </h2>
-          <h1>Demo made by 
-            Adamya kumar
-          </h1>
+          
             
           
 

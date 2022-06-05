@@ -51,6 +51,7 @@ function App() {
           <Route path="/dashboard"
             element={<Dashboard/>}/>
           <Route path="/academies" element={<Academies />} />
+          <Route path="/gurus" element={<GetUsers/>} />
         </Routes>
       ) : (
         <Routes>
@@ -60,6 +61,7 @@ function App() {
             element={<AuthScreen setloggedIn={setloggedIn} />}
           />
           <Route path="/academies" element={<Academies />} />
+          <Route path="/gurus" element={<GetUsers/>} />
         </Routes>
       )}
 
