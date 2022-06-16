@@ -11,12 +11,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphql-tools/schema": "^8.3.14",
     "@prisma/client": "^3.14.0",
     "apollo-server": "^3.7.0",
+    "apollo-server-express": "^3.8.2",
     "bcryptjs": "^2.4.3",
+    "express": "^4.18.1",
     "graphql": "^16.5.0",
+    "graphql-subscriptions": "^2.0.0",
+    "graphql-ws": "^5.9.0",
     "jsonwebtoken": "^8.5.1",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "ws": "^8.8.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.35",

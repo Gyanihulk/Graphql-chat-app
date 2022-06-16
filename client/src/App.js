@@ -60,6 +60,10 @@ function App() {
             path="/login"
             element={<AuthScreen setloggedIn={setloggedIn} />}
           />
+          <Route
+            path="/chatscreen"
+            element={<HomeSceen setloggedIn={setloggedIn} />}
+          />
           <Route path="/academies" element={<Academies />} />
           <Route path="/gurus" element={<GetUsers/>} />
         </Routes>

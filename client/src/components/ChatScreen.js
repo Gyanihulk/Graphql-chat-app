@@ -2,45 +2,49 @@ import React,{useState,useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import {AppBar,Toolbar,Avatar, Typography,Box, TextField, Stack} from '@mui/material'
 import MessageCard from './MessageCard';
-// import { useQuery, useMutation, useSubscription } from '@apollo/client';
-// import { GET_MSG } from '../graphql/queries';
-// import SendIcon from '@mui/icons-material/Send';
-// import { SEND_MSG } from '../graphql/mutations';
-// import { MSG_SUB } from '../graphql/subscriptions';
-// import jwt_decode from 'jwt-decode'
+import { GET_MESSAGE } from '../graphql/Query';
+import { useQuery, useMutation, useSubscription } from '@apollo/client';
+import SendIcon from '@mui/icons-material/Send';
+import { SEND_MSG } from '../graphql/mutations';
+import { MSG_SUB } from '../graphql/subscription';
+import jwt_decode from 'jwt-decode'
 
-const ChatScreen = () => {
+const ChatScreen = (setloggedIn) => {
   const {id,name} = useParams()
   const [text,setText] = useState("")
   const [messages,setMessages] = useState([])
-  // const {userId} = jwt_decode(localStorage.getItem('jwt'))
+  const {userId} = jwt_decode(localStorage.getItem('jwt'))
 
-  // const {data,loading,error} = useQuery(GET_MSG,{
-  //   variables:{
-  //     receiverId: +id
-  //   },
-  //   onCompleted(data){
-  //     setMessages(data.messagesByUser)
-  //   }
-  // })
+  const {data,loading,error} = useQuery(GET_MESSAGE,{
+    variables:{
+      receiverId: +id
+    },
+    onCompleted(data){
+      setMessages(data.messagesByUser)
+    }
+  })
 
-  // const [sendMessage] = useMutation(SEND_MSG,{
-  //   // onCompleted(data){
-  //   //   setMessages((prevMessages)=>[...prevMessages,data.createMessage])
-  //   // }
-  // })
-/* 
+  const [sendMessage] = useMutation(SEND_MSG,{
+    // onCompleted(data){
+    //   setMessages((prevMessages)=>[...prevMessages,data.createMessage])
+    // }
+  })
+
   const {data:subData} = useSubscription(MSG_SUB,{
+    
     onSubscriptionData({subscriptionData:{data}}){
+    
        if(
-         (data.messageAdded.receiverId == +id && data.messageAdded.senderId == userId) ||
-         (data.messageAdded.receiverId == userId && data.messageAdded.senderId == +id) 
+         (data.messageAdded.receiverId === +id && data.messageAdded.senderId === userId) ||
+         (data.messageAdded.receiverId === userId && data.messageAdded.senderId === +id) 
        ){
           setMessages((prevMessages)=>[...prevMessages,data.messageAdded])  
        }
     }
   })
- */
+// const{data:subData}=useSubscription(MSG_SUB,{onSubscriptionData(data){console.log(data)}})
+
+
   return (
     <Box
     flexGrow={1}
@@ -57,14 +61,14 @@ const ChatScreen = () => {
         </Toolbar>
       </AppBar>
       <Box backgroundColor="#f5f5f5" height="80vh" padding="10px" sx={{overflowY:"auto"}} >
-        {/* {
+        {
           loading? <Typography variant="h6">loading chats</Typography>
           : messages.map(msg=>{
-            return <MessageCard key={msg.createdAt} text={msg.text} date={msg.createdAt} direction={msg.receiverId == +id? "end":"start"} />
+            return <MessageCard key={msg.createAt} text={msg.text} date={msg.createAt} direction={msg.receiverId === +id? "end":"start"} />
           })
-        } */}
+        }
           
-          <MessageCard text="hi mukesh" date="1223" direction="end" />
+          {/* <MessageCard text="hi mukesh" date="1223" direction="end" /> */}
 
        
       </Box>
@@ -78,14 +82,14 @@ const ChatScreen = () => {
               value={text}
               onChange={e=>setText(e.target.value)}
               />
-            {/* <SendIcon fontSize="large" onClick={()=>{
+            <SendIcon fontSize="large" onClick={()=>{
               sendMessage({
                 variables:{
                   receiverId: +id,
                   text:text
                 }
               })
-            }} /> */}
+            }} />
       </Stack>
 
 

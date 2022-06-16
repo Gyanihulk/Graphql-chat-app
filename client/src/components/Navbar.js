@@ -58,18 +58,20 @@ const UserBox = styled(Box)(({ theme }) => ({
  
   
 
-const Navbar = ({setloggedIn}) => {
+const Navbar = (props) => {
+  const [loggedIn, setloggedIn2] = useState(
+    localStorage.getItem("jwt") ? true : false
+  );
   useEffect(()=>{
-  },[])
+    console.log(setloggedIn2)
+  },[setloggedIn2])
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = React.useState('one');
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [loggedIn, setloggedIn2] = useState(
-    localStorage.getItem("jwt") ? true : false
-  );
+  
     const landing =()=>{
     console.log('hello');
     return (<Navigate to="/" />)
@@ -94,10 +96,11 @@ const Navbar = ({setloggedIn}) => {
           
       />}
       />
+      
       <Stack>
        
       <Icons>
-        {console.log(setloggedIn)}
+        
         {loggedIn?<Tabs
       value={value}
       onChange={handleChange}
@@ -128,8 +131,8 @@ const Navbar = ({setloggedIn}) => {
       <Tab value="three" component={Link} to="/login" label="Login" /> 
           
     </Tabs>}
-      {/* {setloggedIn?} */}
-        
+      {/* {console.log(loggedIn)} */}
+       
         <Menu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
@@ -160,7 +163,7 @@ const Navbar = ({setloggedIn}) => {
           />
            <LogoutIcon onClick={()=>{
 localStorage.removeItem('jwt')
-setloggedIn(false)
+
 navigate('/')
 
 
